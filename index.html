@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Krish Maharjan - Frontend Developer</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+        background: #0a0a0a;
+        color: #ffffff;
+        overflow-x: hidden;
+        line-height: 1.6;
+      }
+
+      #canvas-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 2rem;
+        position: relative;
+        z-index: 1;
+      }
+
+      header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+        backdrop-filter: blur(20px);
+        background: rgba(10, 10, 10, 0.8);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        transition: all 0.3s ease;
+      }
+
+      nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem 2rem;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .logo {
+        font-size: 1.5rem;
+        font-weight: 700;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .nav-links {
+        display: flex;
+        list-style: none;
+        gap: 2rem;
+      }
+
+      .nav-links a {
+        color: rgba(255, 255, 255, 0.8);
+        text-decoration: none;
+        transition: color 0.3s ease;
+        cursor: pointer;
+      }
+
+      .nav-links a:hover {
+        color: #667eea;
+      }
+
+      section {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        padding: 2rem 0;
+      }
+
+      .hero {
+        text-align: center;
+        padding: 8rem 0;
+      }
+
+      .hero h1 {
+        font-size: clamp(3rem, 8vw, 6rem);
+        font-weight: 700;
+        margin-bottom: 1rem;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .hero .subtitle {
+        font-size: clamp(1.2rem, 4vw, 2rem);
+        color: rgba(255, 255, 255, 0.8);
+        margin-bottom: 2rem;
+      }
+
+      .hero .description {
+        font-size: 1.1rem;
+        color: rgba(255, 255, 255, 0.7);
+        max-width: 600px;
+        margin: 0 auto 3rem;
+      }
+
+      .cta-button {
+        display: inline-block;
+        padding: 1rem 2rem;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        text-decoration: none;
+        border-radius: 50px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        border: none;
+        cursor: pointer;
+      }
+
+      .cta-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+      }
+
+      .section-title {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 3rem;
+        text-align: center;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .skills-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+        margin-bottom: 4rem;
+      }
+
+      .skill-category {
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(20px);
+        padding: 2rem;
+        border-radius: 20px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        transition: all 0.3s ease;
+      }
+
+      .skill-category:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+      }
+
+      .skill-category h3 {
+        font-size: 1.3rem;
+        margin-bottom: 1rem;
+        color: #667eea;
+      }
+
+      .skill-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+      }
+
+      .skill-tag {
+        background: rgba(102, 126, 234, 0.2);
+        color: #667eea;
+        padding: 0.5rem 1rem;
+        border-radius: 25px;
+        font-size: 0.9rem;
+        border: 1px solid rgba(102, 126, 234, 0.3);
+      }
+
+      .projects-grid {
+        display: grid;
+        gap: 3rem;
+      }
+
+      .project-card {
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(20px);
+        padding: 2.5rem;
+        border-radius: 20px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        transition: all 0.3s ease;
+      }
+
+      .project-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+      }
+
+      .project-card h3 {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+        color: #667eea;
+      }
+
+      .project-description {
+        color: rgba(255, 255, 255, 0.8);
+        margin-bottom: 1.5rem;
+        line-height: 1.6;
+      }
+
+      .project-tech {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-bottom: 1.5rem;
+      }
+
+      .tech-tag {
+        background: rgba(118, 75, 162, 0.2);
+        color: #764ba2;
+        padding: 0.3rem 0.8rem;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        border: 1px solid rgba(118, 75, 162, 0.3);
+      }
+
+      .contact-content {
+        text-align: center;
+        max-width: 600px;
+        margin: 0 auto;
+      }
+
+      .contact-info {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 2rem;
+        margin-top: 3rem;
+      }
+
+      .contact-item {
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(20px);
+        padding: 2rem;
+        border-radius: 20px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        transition: all 0.3s ease;
+      }
+
+      .contact-item:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+      }
+
+      .contact-item h4 {
+        color: #667eea;
+        margin-bottom: 0.5rem;
+      }
+
+      .contact-item a {
+        color: rgba(255, 255, 255, 0.8);
+        text-decoration: none;
+      }
+
+      .contact-item a:hover {
+        color: #667eea;
+      }
+
+      .scroll-indicator {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+        transform-origin: left;
+        z-index: 1001;
+      }
+
+      @media (max-width: 768px) {
+        .nav-links {
+          display: none;
+        }
+
+        .hero {
+          padding: 6rem 0;
+        }
+
+        section {
+          padding: 1rem 0;
+        }
+
+        .skills-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .container {
+          padding: 0 1rem;
+        }
+      }
+
+      .floating-shapes {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        z-index: -2;
+      }
+
+      .shape {
+        position: absolute;
+        background: linear-gradient(
+          135deg,
+          rgba(102, 126, 234, 0.1),
+          rgba(118, 75, 162, 0.1)
+        );
+        border-radius: 50%;
+        animation: float 20s infinite linear;
+      }
+
+      .shape:nth-child(1) {
+        width: 100px;
+        height: 100px;
+        left: 10%;
+        animation-delay: 0s;
+      }
+
+      .shape:nth-child(2) {
+        width: 150px;
+        height: 150px;
+        left: 70%;
+        animation-delay: 5s;
+      }
+
+      .shape:nth-child(3) {
+        width: 80px;
+        height: 80px;
+        left: 40%;
+        animation-delay: 10s;
+      }
+
+      @keyframes float {
+        0% {
+          transform: translateY(100vh) rotate(0deg);
+          opacity: 0;
+        }
+        10% {
+          opacity: 1;
+        }
+        90% {
+          opacity: 1;
+        }
+        100% {
+          transform: translateY(-100px) rotate(360deg);
+          opacity: 0;
+        }
+      }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  </head>
+  <body>
+    <div class="scroll-indicator" id="scrollIndicator"></div>
+
+    <div class="floating-shapes">
+      <div class="shape"></div>
+      <div class="shape"></div>
+      <div class="shape"></div>
+    </div>
+
+    <div id="canvas-container"></div>
+
+    <header>
+      <nav>
+        <div class="logo">KM</div>
+        <ul class="nav-links">
+          <li><a onclick="scrollToSection('hero')">Home</a></li>
+          <li><a onclick="scrollToSection('about')">About</a></li>
+          <li><a onclick="scrollToSection('skills')">Skills</a></li>
+          <li><a onclick="scrollToSection('projects')">Projects</a></li>
+          <li><a onclick="scrollToSection('contact')">Contact</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main>
+      <section id="hero" class="hero">
+        <div class="container">
+          <h1>Krish Maharjan</h1>
+          <p class="subtitle">Frontend Software Engineer</p>
+          <p class="description">
+            Specializing in React, Next.js, and TypeScript with hands-on
+            experience in building scalable, high-performance web applications.
+            Passionate about creating responsive, user-friendly interfaces with
+            modern technologies.
+          </p>
+          <button class="cta-button" onclick="scrollToSection('projects')">
+            View My Work
+          </button>
+        </div>
+      </section>
+
+      <section id="about">
+        <div class="container">
+          <h2 class="section-title">About Me</h2>
+          <div
+            style="
+              background: rgba(255, 255, 255, 0.05);
+              backdrop-filter: blur(20px);
+              padding: 3rem;
+              border-radius: 20px;
+              border: 1px solid rgba(255, 255, 255, 0.1);
+              text-align: center;
+            "
+          >
+            <p
+              style="
+                font-size: 1.1rem;
+                color: rgba(255, 255, 255, 0.8);
+                line-height: 1.8;
+                max-width: 800px;
+                margin: 0 auto;
+              "
+            >
+              I'm a passionate Frontend Developer based in Patan, Nepal, with
+              expertise in building modern web applications. Currently working
+              at Treeleaf Technologies, I focus on performance optimization,
+              clean architecture, and delivering exceptional user experiences.
+              With a strong foundation in React ecosystem and modern development
+              tools, I bring ideas to life through code.
+            </p>
+            <div style="margin-top: 2rem">
+              <div
+                style="
+                  display: inline-block;
+                  background: rgba(102, 126, 234, 0.2);
+                  padding: 0.5rem 1rem;
+                  border-radius: 25px;
+                  margin: 0.5rem;
+                  border: 1px solid rgba(102, 126, 234, 0.3);
+                "
+              >
+                <span style="color: #667eea">📍 Patan, Nepal</span>
+              </div>
+              <div
+                style="
+                  display: inline-block;
+                  background: rgba(102, 126, 234, 0.2);
+                  padding: 0.5rem 1rem;
+                  border-radius: 25px;
+                  margin: 0.5rem;
+                  border: 1px solid rgba(102, 126, 234, 0.3);
+                "
+              >
+                <span style="color: #667eea"
+                  >🎓 Bachelor in Computer Applications</span
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="skills">
+        <div class="container">
+          <h2 class="section-title">Technical Skills</h2>
+          <div class="skills-grid">
+            <div class="skill-category">
+              <h3>Frontend Technologies</h3>
+              <div class="skill-tags">
+                <span class="skill-tag">React</span>
+                <span class="skill-tag">Next.js</span>
+                <span class="skill-tag">TypeScript</span>
+                <span class="skill-tag">JavaScript</span>
+                <span class="skill-tag">TanStack Query</span>
+                <span class="skill-tag">Redux</span>
+                <span class="skill-tag">Jotai</span>
+                <span class="skill-tag">Context API</span>
+              </div>
+            </div>
+            <div class="skill-category">
+              <h3>UI & Styling</h3>
+              <div class="skill-tags">
+                <span class="skill-tag">Tailwind CSS</span>
+                <span class="skill-tag">Shadcn UI</span>
+                <span class="skill-tag">Ant Design</span>
+                <span class="skill-tag">Material UI</span>
+                <span class="skill-tag">SCSS</span>
+                <span class="skill-tag">Bootstrap</span>
+              </div>
+            </div>
+            <div class="skill-category">
+              <h3>Development Tools</h3>
+              <div class="skill-tags">
+                <span class="skill-tag">Git</span>
+                <span class="skill-tag">GitHub</span>
+                <span class="skill-tag">Postman</span>
+                <span class="skill-tag">Webpack</span>
+                <span class="skill-tag">Babel</span>
+                <span class="skill-tag">Vite</span>
+                <span class="skill-tag">Figma</span>
+              </div>
+            </div>
+            <div class="skill-category">
+              <h3>Data & Visualization</h3>
+              <div class="skill-tags">
+                <span class="skill-tag">REST API</span>
+                <span class="skill-tag">MQTT</span>
+                <span class="skill-tag">Protobuf</span>
+                <span class="skill-tag">Recharts</span>
+                <span class="skill-tag">D3.js</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="projects">
+        <div class="container">
+          <h2 class="section-title">Featured Projects</h2>
+          <div class="projects-grid">
+            <div class="project-card">
+              <h3>Ibtrading - AI-Powered Trading Application</h3>
+              <p class="project-description">
+                Built a comprehensive trading application with real-time chart
+                integrations for market analysis. Implemented AI-driven
+                strategies configurable by users to auto-execute trades with
+                modern and responsive UI.
+              </p>
+              <div class="project-tech">
+                <span class="tech-tag">Next.js</span>
+                <span class="tech-tag">TypeScript</span>
+                <span class="tech-tag">Tailwind CSS</span>
+                <span class="tech-tag">Shadcn UI</span>
+                <span class="tech-tag">Real-time Charts</span>
+              </div>
+            </div>
+
+            <div class="project-card">
+              <h3>IRIS Biometrics - Nepal Police System</h3>
+              <p class="project-description">
+                Developed a sophisticated biometric system for Nepal Police with
+                Redux Saga for asynchronous API calls and MQTT integration for
+                real-time data synchronization. Delivered 70% of essential
+                features including localized routing and API integration.
+              </p>
+              <div class="project-tech">
+                <span class="tech-tag">React</span>
+                <span class="tech-tag">Redux Saga</span>
+                <span class="tech-tag">MQTT</span>
+                <span class="tech-tag">Ant Design</span>
+                <span class="tech-tag">Styled Components</span>
+              </div>
+            </div>
+
+            <div class="project-card">
+              <h3>Treelytics - Analytics Dashboard</h3>
+              <p class="project-description">
+                Created a feature-rich analytics dashboard with integrated
+                react-grid-layout, Monaco Editor, TanStack Query, i18n, and
+                Recharts for a rich, interactive UI experience with complex data
+                visualization capabilities.
+              </p>
+              <div class="project-tech">
+                <span class="tech-tag">React</span>
+                <span class="tech-tag">Redux Toolkit</span>
+                <span class="tech-tag">TanStack Query</span>
+                <span class="tech-tag">Recharts</span>
+                <span class="tech-tag">Monaco Editor</span>
+              </div>
+            </div>
+
+            <div class="project-card">
+              <h3>E-Chalan - Traffic Violation Management</h3>
+              <p class="project-description">
+                Developed a comprehensive traffic violation management system
+                for Lalitpur Metropolitan. Implemented Protocol Buffers for
+                efficient communication, integrated Khalti payment system, and
+                built accessible UI with TypeScript for type safety.
+              </p>
+              <div class="project-tech">
+                <span class="tech-tag">TypeScript</span>
+                <span class="tech-tag">Shadcn UI</span>
+                <span class="tech-tag">Protobuf</span>
+                <span class="tech-tag">Payment Integration</span>
+                <span class="tech-tag">Recharts</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="contact">
+        <div class="container">
+          <div class="contact-content">
+            <h2 class="section-title">Get In Touch</h2>
+            <p
+              style="
+                font-size: 1.1rem;
+                color: rgba(255, 255, 255, 0.8);
+                margin-bottom: 2rem;
+              "
+            >
+              I'm always interested in new opportunities and exciting projects.
+              Let's connect and discuss how we can work together!
+            </p>
+            <div class="contact-info">
+              <div class="contact-item">
+                <h4>Email</h4>
+                <a href="mailto:maharjankrish51@gmail.com"
+                  >maharjankrish51@gmail.com</a
+                >
+              </div>
+              <div class="contact-item">
+                <h4>Phone</h4>
+                <a href="tel:+9779863030087">+977 986-3030087</a>
+              </div>
+              <div class="contact-item">
+                <h4>LinkedIn</h4>
+                <a
+                  href="https://www.linkedin.com/in/krish-maharjan-321019248/"
+                  target="_blank"
+                  >Connect with me</a
+                >
+              </div>
+              <div class="contact-item">
+                <h4>Location</h4>
+                <span>Kathmandu, Nepal</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      // Three.js Scene Setup
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(
+        75,
+        window.innerWidth / window.innerHeight,
+        0.1,
+        1000
+      );
+      const renderer = new THREE.WebGLRenderer({
+        alpha: true,
+        antialias: true,
+      });
+
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      renderer.setClearColor(0x000000, 0);
+      document
+        .getElementById("canvas-container")
+        .appendChild(renderer.domElement);
+
+      // Create particles
+      const particleCount = 200;
+      const particles = new THREE.BufferGeometry();
+      const positions = new Float32Array(particleCount * 3);
+      const velocities = [];
+
+      for (let i = 0; i < particleCount * 3; i += 3) {
+        positions[i] = (Math.random() - 0.5) * 100;
+        positions[i + 1] = (Math.random() - 0.5) * 100;
+        positions[i + 2] = (Math.random() - 0.5) * 100;
+
+        velocities.push({
+          x: (Math.random() - 0.5) * 0.02,
+          y: (Math.random() - 0.5) * 0.02,
+          z: (Math.random() - 0.5) * 0.02,
+        });
+      }
+
+      particles.setAttribute(
+        "position",
+        new THREE.BufferAttribute(positions, 3)
+      );
+
+      const particleMaterial = new THREE.PointsMaterial({
+        color: 0x667eea,
+        size: 2,
+        transparent: true,
+        opacity: 0.6,
+      });
+
+      const particleSystem = new THREE.Points(particles, particleMaterial);
+      scene.add(particleSystem);
+
+      // Create geometric shapes
+      const geometry1 = new THREE.TorusGeometry(10, 3, 16, 100);
+      const geometry2 = new THREE.OctahedronGeometry(8);
+      const geometry3 = new THREE.IcosahedronGeometry(6);
+
+      const material1 = new THREE.MeshBasicMaterial({
+        color: 0x667eea,
+        wireframe: true,
+        transparent: true,
+        opacity: 0.3,
+      });
+      const material2 = new THREE.MeshBasicMaterial({
+        color: 0x764ba2,
+        wireframe: true,
+        transparent: true,
+        opacity: 0.3,
+      });
+      const material3 = new THREE.MeshBasicMaterial({
+        color: 0x667eea,
+        wireframe: true,
+        transparent: true,
+        opacity: 0.2,
+      });
+
+      const torus = new THREE.Mesh(geometry1, material1);
+      const octahedron = new THREE.Mesh(geometry2, material2);
+      const icosahedron = new THREE.Mesh(geometry3, material3);
+
+      torus.position.set(-30, 10, -50);
+      octahedron.position.set(40, -20, -60);
+      icosahedron.position.set(0, 30, -80);
+
+      scene.add(torus);
+      scene.add(octahedron);
+      scene.add(icosahedron);
+
+      camera.position.z = 30;
+
+      // Mouse interaction
+      let mouse = { x: 0, y: 0 };
+      document.addEventListener("mousemove", (event) => {
+        mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+        mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+      });
+
+      // Animation loop
+      function animate() {
+        requestAnimationFrame(animate);
+
+        // Rotate geometric shapes
+        torus.rotation.x += 0.01;
+        torus.rotation.y += 0.01;
+        octahedron.rotation.x += 0.02;
+        octahedron.rotation.z += 0.01;
+        icosahedron.rotation.y += 0.015;
+        icosahedron.rotation.z += 0.005;
+
+        // Move particles
+        const positions = particleSystem.geometry.attributes.position.array;
+        for (let i = 0; i < particleCount; i++) {
+          const i3 = i * 3;
+          positions[i3] += velocities[i].x;
+          positions[i3 + 1] += velocities[i].y;
+          positions[i3 + 2] += velocities[i].z;
+
+          // Reset particles that move too far
+          if (positions[i3] > 50) positions[i3] = -50;
+          if (positions[i3] < -50) positions[i3] = 50;
+          if (positions[i3 + 1] > 50) positions[i3 + 1] = -50;
+          if (positions[i3 + 1] < -50) positions[i3 + 1] = 50;
+          if (positions[i3 + 2] > 50) positions[i3 + 2] = -50;
+          if (positions[i3 + 2] < -50) positions[i3 + 2] = 50;
+        }
+        particleSystem.geometry.attributes.position.needsUpdate = true;
+
+        // Camera movement based on mouse
+        camera.position.x += (mouse.x * 5 - camera.position.x) * 0.05;
+        camera.position.y += (mouse.y * 5 - camera.position.y) * 0.05;
+        camera.lookAt(scene.position);
+
+        renderer.render(scene, camera);
+      }
+
+      animate();
+
+      // Handle window resize
+      window.addEventListener("resize", () => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+      });
+
+      // Smooth scrolling
+      function scrollToSection(sectionId) {
+        const element = document.getElementById(sectionId);
+        element.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+      }
+
+      // Scroll indicator
+      window.addEventListener("scroll", () => {
+        const scrollIndicator = document.getElementById("scrollIndicator");
+        const scrollableHeight =
+          document.documentElement.scrollHeight - window.innerHeight;
+        const scrolled = window.scrollY;
+        const progress = scrolled / scrollableHeight;
+        scrollIndicator.style.transform = `scaleX(${progress})`;
+      });
+
+      // Parallax effect for sections
+      window.addEventListener("scroll", () => {
+        const scrolled = window.pageYOffset;
+        const rate = scrolled * -0.5;
+
+        // Move Three.js camera based on scroll
+        camera.position.y = rate * 0.01;
+      });
+
+      // Add intersection observer for animations
+      const observerOptions = {
+        threshold: 0.1,
+        rootMargin: "0px 0px -50px 0px",
+      };
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.style.opacity = "1";
+            entry.target.style.transform = "translateY(0)";
+          }
+        });
+      }, observerOptions);
+
+      // Observe all sections for animation
+      document.querySelectorAll("section").forEach((section) => {
+        section.style.opacity = "0";
+        section.style.transform = "translateY(30px)";
+        section.style.transition = "all 0.8s ease";
+        observer.observe(section);
+      });
+
+      // Initialize first section as visible
+      document.getElementById("hero").style.opacity = "1";
+      document.getElementById("hero").style.transform = "translateY(0)";
+    </script>
+  </body>
+</html>
